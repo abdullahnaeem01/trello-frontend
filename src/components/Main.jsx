@@ -197,12 +197,12 @@ const Main = () => {
           <button className="bg-gray-200 h-8 text-gray-800 px-2 py-1 mr-2 rounded flex justify-center items-center" onClick={toggleSearch}>
             <Search size={16} className="mr-2"></Search> Search
           </button>
-          <button className="bg-gray-200 h-8 text-gray-800 px-2 py-1 mr-2 rounded flex justify-center items-center">
+          {/* <button className="bg-gray-200 h-8 text-gray-800 px-2 py-1 mr-2 rounded flex justify-center items-center">
             <UserPlus size={16} className="mr-2"></UserPlus> Share
-          </button>
-          <button className="hover:bg-gray-500 px-2 py-1 h-8 rounded">
+          </button> */}
+          {/* <button className="hover:bg-gray-500 px-2 py-1 h-8 rounded">
             <MoreHorizontal size={16}></MoreHorizontal>
-          </button>
+          </button> */}
         </div>
       </div>
       { isSearching ? (
@@ -245,7 +245,7 @@ const Main = () => {
                                 {...provided.dragHandleProps}
                                 className="item flex flex-col justify-between items-center bg-zinc-700 p-1 cursor-pointer rounded-md border-2 border-zinc-900 hover:border-gray-500"
                               >
-                                <div className="w-full text-white">
+                                <div className="w-full text-gray">
                                   <p className="font-bold">{task.title}</p>
                                   <p className="text-base font-light">{task.description.length > 100 ? task.description.substring(0,100) + '...' : task.description || "No description"}</p>
                                 </div>

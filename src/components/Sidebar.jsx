@@ -1,5 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ChevronRight, ChevronLeft, Plus, X } from "react-feather";
+import {
+  ChevronRight,
+  ChevronLeft,
+  Plus,
+  X,
+  Edit2,
+  Trash2,
+} from "react-feather";
 import { Popover } from "react-tiny-popover";
 import axios from "axios";
 import { BoardContext } from "../context/BoardContext";
@@ -18,7 +25,7 @@ const Sidebar = () => {
   const [showPop, setShowPop] = useState(false);
   const { allboard, setAllBoard } = useContext(BoardContext);
   const [editIndex, setEditIndex] = useState(-1);
-  const [editedTitle, setEditedTitle] = useState('');
+  const [editedTitle, setEditedTitle] = useState("");
   const { user } = useAuth();
 
   useEffect(() => {
@@ -73,13 +80,13 @@ const Sidebar = () => {
       await updateBoard(allboard.boards[index]._id, updatedData, user.token); // Update board
       const updatedBoards = [...allboard.boards];
       updatedBoards[index].title = newTitle; // Update the title in the local state
-      setAllBoard(prevState => ({
+      setAllBoard((prevState) => ({
         ...prevState,
         boards: updatedBoards
       }));
       setEditIndex(-1); // Reset editIndex
     } catch (error) {
-      console.error('Error editing board:', error);
+      console.error("Error editing board:", error);
     }
   };
 
@@ -87,22 +94,22 @@ const Sidebar = () => {
     try {
       await deleteBoard(allboard.boards[index]._id, user.token);
       const updatedBoards = allboard.boards.filter((_, i) => i !== index);
-      setAllBoard(prevState => ({
+      setAllBoard((prevState) => ({
         ...prevState,
         boards: updatedBoards
       }));
     } catch (error) {
-      console.error('Error deleting board:', error);
+      console.error("Error deleting board:", error);
     }
   };
 
   const handleUpdateBoard = (index) => {
-    if (editedTitle.trim() !== '') {
+    if (editedTitle.trim() !== "") {
       editBoardItem(index, editedTitle);
     } else {
       // Reset editIndex and editedTitle if the title is empty
       setEditIndex(-1);
-      setEditedTitle('');
+      setEditedTitle("");
     }
   };
 
@@ -199,7 +206,7 @@ const Sidebar = () => {
                   <div className="flex items-center justify-between px-3 py-2">
                     <button
                       onClick={() => setActiveBoard(index)}
-                      className={`w-full text-sm flex justify-start align-baseline ${
+                      className={`w-full text-sm flex justify-start align-baseline mr-4 ${
                         allboard.active === index
                           ? "bg-gray-700"
                           : "hover:bg-gray-500"
@@ -213,39 +220,47 @@ const Sidebar = () => {
                       </span>
                       {/* Editable Title */}
                       {index === editIndex ? (
-                        <input
+                       <input
                           type="text"
                           value={editedTitle}
                           onChange={(e) => setEditedTitle(e.target.value)}
                           onBlur={() => handleUpdateBoard(index)}
+                          className=" rounded-md border-2 bg-zinc-700 border-zinc-900"
                           autoFocus
                         />
                       ) : (
                         <span>{board.title}</span>
                       )}
                     </button>
+
                     <div className="flex items-center">
                       {/* Edit Button */}
                       {index === editIndex ? (
-                        <button disabled className="p-1 rounded-sm mr-2">
-                          Editing...
+                        <button
+                          disabled
+                          className="p-1 rounded-sm mr-2 flex items-center"
+                        >
+                          
                         </button>
                       ) : (
                         <button
                           onClick={() => setEditIndex(index)}
-                          className="hover:bg-slate-600 p-1 rounded-sm mr-2"
+                          className="hover:bg-slate-600 p-1 rounded-sm mr-2 flex items-center"
                         >
-                          Edit
+                          <Edit2 size={16} />
                         </button>
                       )}
                       {/* Delete Button */}
-                      <button
-                        onClick={() => deleteBoardItem(index)}
-                        className="hover:bg-slate-600 p-1 rounded-sm"
-                      >
-                        Delete
-                      </button>
+                      {index !== editIndex && (
+                        <button
+                          onClick={() => deleteBoardItem(index)}
+                          className="hover:bg-slate-600 p-1 rounded-sm flex items-center"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      )}
                     </div>
+                    {/* edit button ending */}
                   </div>
                 </li>
               ))}
