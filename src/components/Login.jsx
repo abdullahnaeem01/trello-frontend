@@ -1,64 +1,71 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import validation from "../LoginValidation";
-
-import { useState } from "react";
+import React, { useContext, useState } from 'react';
+// import '../assets/css/account.css';
+// import { AuthContext } from '../context/auth';
+import { useAuth } from '../context/auth';
 
 const Login = () => {
-    const [values,setValues]=useState({
-        email:'',
-        password:''
-    })
-    const [errors,setErrors] = useState({})
-
-    const handleSubmit=(e)=>{
-        e.preventDefault();
-        setErrors(validation(values));
-        // console.log(values);
-    }
-    const handleInput=(e)=>{
-        setValues({
-           ...values,
-            [e.target.name]:[e.target.value]
-        })
-        console.log(values);
-    }
-   
+  const auth = useAuth();
+  const [userData, setUserData] = useState({
+    email: '',
+    password: '',
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    auth.login(userData);
+  };
   return (
-    <div className="d-flex justify-content-center align-items-center  bg-dark vh-100 ">
-      <div className="bg-white p-3 rounded w-25">
-        <h2 className="text-center text-primary">Log-In</h2>
-        <form action="" onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="email"> Email</label>
-            <input
-              type="email"
-              placeholder="Enter Email"
-              className="form-control rounded-0"
-              name="email"
-              onChange={handleInput}
-            />
-            {errors.email&&<span className="text-danger">{errors.email}</span>}
-          </div>
-          <div className="mb-3">
-            <label htmlFor="passwordl"> Password</label>
-            <input
-              type="password"
-              placeholder="Enter Password"
-              className="form-control rounded-0"
-              name="password"
-              onChange={handleInput}
-            />
-            {errors.password&&<span className="text-danger">{errors.password}</span>}
-          </div>
-          <button type="submit" className="btn btn-success w-100 rounded-0">Log In</button>
-          <Link
-            to="/signup"
-            className="btn btn-default border w-100 bg-light rounded-0 text-decoration-none  "
-          >
-            Sign Up
-          </Link>
-        </form>
+    <div className='container mt-5'>
+      <div className='row d-flex justify-content-center align-items-center'>
+        <div className='col-md-8'>
+          <h1 className='text-center mb-5'>Welcome to Trello Board</h1>
+          <form className='border border-secondary rounded p-3'>
+            <div className='form-group'>
+              <label htmlFor='exampleInputEmail1'>Email address</label>
+              <input
+                type='email'
+                className='form-control'
+                id='InputEmail'
+                name='email'
+                onChange={handleChange}
+                aria-describedby='emailHelp'
+                placeholder='Enter email'
+              />
+              <small id='emailHelp' className='form-text text-muted'>
+                We'll never share your email with anyone else.
+              </small>
+            </div>
+            <div className='form-group'>
+              <label htmlFor='exampleInputPassword1'>Password</label>
+              <input
+                type='password'
+                className='form-control'
+                id='InputPassword'
+                name='password'
+                onChange={handleChange}
+                placeholder='Password'
+              />
+            </div>
+            <div className='mt-2'>
+              <p>
+                Don't have an account? <a href='/signup'>Create an account</a>
+              </p>
+            </div>
+            <button
+              type='submit'
+              className='btn btn-primary'
+              onClick={handleSubmit}
+            >
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

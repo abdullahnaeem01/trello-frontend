@@ -4,8 +4,8 @@ import axios from 'axios';
 
 const AuthContext = createContext(null);
 
-const authURL = 'http://localhost:5000/api/auth/login';
-const signupURL = 'http://localhost:5000/api/auth/register';
+const authURL = 'http://127.0.0.1:5000/api/auth/login';
+const signupURL = 'http://127.0.0.1:5000/api/auth/register';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
